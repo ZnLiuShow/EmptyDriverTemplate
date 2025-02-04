@@ -1,5 +1,6 @@
 // 完整驱动框架示例（包含设备和IRP处理）
 #include <ntddk.h>
+#include "comwr.h"
 
 extern VOID MyLoadImageNotifyRoutine(
     PUNICODE_STRING FullImageName,
@@ -37,6 +38,8 @@ VOID DriverUnload(PDRIVER_OBJECT DriverObject) {
     UNICODE_STRING symLink = RTL_CONSTANT_STRING(L"\\DosDevices\\MyDevice");
     IoDeleteSymbolicLink(&symLink);
     IoDeleteDevice(DriverObject->DeviceObject);
+    /* REMOVE CALLBACKS */
+    PsRemoveLoadImageNotifyRoutine(MyLoadImageNotifyRoutine);
     DbgPrintEx(DPFLTR_DEFAULT_ID, DPFLTR_INFO_LEVEL, "Driver unloaded.");
 }
 
@@ -62,5 +65,6 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath) 
     DriverObject->DriverUnload = DriverUnload;
 
     DbgPrintEx(DPFLTR_DEFAULT_ID, DPFLTR_INFO_LEVEL, "Driver loaded.");
+    //ExampleUsage();
     return STATUS_SUCCESS;
 }
