@@ -1,0 +1,12 @@
+打开注册表编辑器：
+在被调试的机器上，按 Win + R 键，打开“运行”对话框，输入 regedit，然后按 Enter 键。
+导航到目标键：
+在注册表编辑器中，依次展开以下路径：
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager
+如果 Debug Print Filter 键不存在，你需要手动创建它：
+右键点击 Session Manager 键，选择“新建” -> “项”，命名为 Debug Print Filter。
+创建或修改 DEFAULT 值：
+在 Debug Print Filter 键下，右键点击空白处，选择“新建” -> “DWORD (32-bit) 值”，命名为 DEFAULT。
+双击 DEFAULT 值，将其数据设置为 0x8 或更高值（如 0xF 以启用所有调试级别）。
+重启计算机：
+修改注册表后，需要重启被调试的机器，以便更改生效。
