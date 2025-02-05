@@ -1,3 +1,18 @@
 ed Kd_DEFAULT_MASK 0x8
 .echo KdPrintEx output will be displayed
 dt nt!_EPROCESS 查看内核结构体
+dt nt!_ETHREAD
+dt nt!_LDR_DATA_TABLE_ENTRY
+dt _PEB
+dt _PEB_LDR_DATA
+
+计算CR3值偏移的方法
+kd> !process 0 0 notepad.exe
+PROCESS ffffa509c74df080
+    SessionId: 1  Cid: 1a34    Peb: e4a30c9000  ParentCid: 0e98
+    DirBase: 3fe93002  ObjectTable: ffffb80d328d4680  HandleCount: 280.
+    Image: notepad.exe
+
+kd> dt nt!_EPROCESS ffffa509c74df080 Pcb.DirectoryTableBase
+   +0x000 Pcb                    : 
+      +0x028 DirectoryTableBase     : 0x3fe93002     
